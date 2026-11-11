@@ -1,9 +1,18 @@
 {
   "samples": 5169,
   "test_samples": 1034,
-  "accuracy": 0.9825918762088974,
-  "spam_precision": 0.9747899159663865,
-  "spam_recall": 0.8854961832061069,
-  "spam_f1": 0.928,
-  "confusion_matrix": [[900, 3], [15, 116]]
+  "accuracy": 0.9816247582205029,
+  "spam_precision": 0.9745762711864406,
+  "spam_recall": 0.8778625954198473,
+  "spam_f1": 0.9236947791164659,
+  "confusion_matrix": [
+    [
+      900,
+      3
+    ],
+    [
+      16,
+      115
+    ]
+  ]
 }
