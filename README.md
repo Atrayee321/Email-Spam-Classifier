@@ -7,7 +7,6 @@
 
 [![Live App](https://img.shields.io/badge/🚀_Live_Demo-Streamlit-FF4B4B?style=for-the-badge)](https://email-spam-classifier-humva2iyr278fyi839ud9c.streamlit.app/)
 [![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
-[![Streamlit](https://img.shields.io/badge/Streamlit-App-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://streamlit.io/)
 [![scikit-learn](https://img.shields.io/badge/scikit--learn-ML-F7931E?style=for-the-badge&logo=scikitlearn&logoColor=white)](https://scikit-learn.org/)
 
 [**Try the App**](https://email-spam-classifier-humva2iyr278fyi839ud9c.streamlit.app/) · [**View Source**](https://github.com/Atrayee321/Email-Spam-Classifier) · [**Dataset**](https://www.kaggle.com/datasets/uciml/sms-spam-collection-dataset)
@@ -143,61 +142,6 @@ Email-Spam-Classifier/
 └── README.md
 ```
 
-## 🚀 Run Locally
-
-### Prerequisites
-- Python 3.11 or a compatible recent Python version
-- Git and pip
-
-**1. Clone the repository**
-
-```bash
-git clone https://github.com/Atrayee321/Email-Spam-Classifier.git
-cd Email-Spam-Classifier
-```
-
-**2. Create and activate a virtual environment**
-
-macOS / Linux:
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-```
-
-Windows PowerShell:
-```powershell
-py -m venv .venv
-.venv\Scripts\Activate.ps1
-```
-
-**3. Install dependencies**
-
-```bash
-python -m pip install -r requirements.txt
-```
-
-**4. Launch the application**
-
-```bash
-streamlit run app.py
-```
-
-Open the local URL printed by Streamlit (usually `http://localhost:8501`).
-
-### 🔄 Retrain the Model (Optional)
-
-The repository already contains a trained model. To reproduce the training process:
-
-```bash
-python train.py
-```
-
-This reads `data/spam.csv`, creates a stratified 80/20 train/test split, trains the pipeline, and regenerates:
-- `models/spam_pipeline.joblib`
-- `models/metrics.json`
-
-The training script uses `random_state=42` for reproducible splitting. Exact results may vary with dependency versions or dataset changes.
-
 ## ☁️ Streamlit Deployment
 
 The project is deployed at:
@@ -247,8 +191,6 @@ The training script removes duplicate rows and uses the `v1` label and `v2` mess
 - [ ] Evaluate robustness on new or adversarial spam examples
 
 ## 🙏 Acknowledgements
-
-- [CampusX SMS Spam Classifier](https://github.com/campusx-official/sms-spam-classifier) — reference project and inspiration
 - [UCI SMS Spam Collection](https://archive.ics.uci.edu/dataset/228/sms+spam+collection) — dataset
 - [Streamlit](https://streamlit.io/) and [scikit-learn](https://scikit-learn.org/) — application and machine learning tools
 
@@ -259,7 +201,5 @@ The training script removes duplicate rows and uses the `v1` label and `v2` mess
 **Built with Python, NLP, and Machine Learning**
 
 ⭐ If you find this project useful, consider starring the repository.
-
-[⬆ Back to top](#️-spamshield)
 
 </div>
