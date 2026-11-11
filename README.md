@@ -180,15 +180,6 @@ The training script removes duplicate rows and uses the `v1` label and `v2` mess
 - This application is **not** a malware scanner, phishing-link analyzer, or replacement for production email security tools.
 - Only load model files from trusted sources; Python pickle-based artifacts can execute code when loaded.
 
-## 🧭 Future Improvements
-
-- [ ] Validate on a separate, labeled real-email dataset
-- [ ] Compare with Logistic Regression, Linear SVM, and other classifiers
-- [ ] Add calibrated probabilities and decision-threshold tuning
-- [ ] Add explainability for influential message terms
-- [ ] Add tests and CI checks for training/inference
-- [ ] Support multilingual spam detection
-- [ ] Evaluate robustness on new or adversarial spam examples
 
 ## 🙏 Acknowledgements
 - [UCI SMS Spam Collection](https://archive.ics.uci.edu/dataset/228/sms+spam+collection) — dataset
