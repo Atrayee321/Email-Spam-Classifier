@@ -2,7 +2,7 @@
 
 A Streamlit machine-learning application that predicts whether a text message is **spam** or **legitimate (ham)** using TF-IDF and Multinomial Naive Bayes.
 
-> **Live demo:** Add your Streamlit URL after deployment.
+> **🚀 Live demo:** [Try SpamShield on Streamlit](https://email-spam-classifier-humva2iyr278fyi839ud9c.streamlit.app/)
 
 ## Features
 - Clean, responsive dark-themed Streamlit interface
