@@ -1,0 +1,49 @@
+name: Build and commit trained spam classifier
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/train-model.yml'
+permissions:
+  contents: write
+jobs:
+  train:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt
+      - name: Download public SMS Spam Collection dataset
+        run: |
+          mkdir -p data
+          python - <<'PY'
+          import urllib.request
+          import pandas as pd
+          url = "https://raw.githubusercontent.com/justmarkham/pycon-2016-tutorial/master/data/sms.tsv"
+          urllib.request.urlretrieve(url, "data/sms.tsv")
+          df = pd.read_csv("data/sms.tsv", sep="\t", header=None, names=["v1","v2"], encoding="utf-8")
+          assert len(df) > 5000 and set(df.v1.unique()) == {"ham","spam"}
+          df.to_csv("data/spam.csv", index=False)
+          PY
+      - name: Train and evaluate model
+        run: python train.py
+      - name: Smoke test Streamlit inference pipeline
+        run: |
+          python - <<'PY'
+          import joblib
+          m=joblib.load('models/spam_pipeline.joblib')
+          assert len(m.predict(['Hello, are we meeting today?'])) == 1
+          print('Model smoke test passed')
+          PY
+      - name: Commit trained artifacts
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/spam.csv models/spam_pipeline.joblib models/metrics.json
+          if ! git diff --cached --quiet; then
+            git commit -m "Add dataset and trained spam classification model"
+            git push
+          fi
