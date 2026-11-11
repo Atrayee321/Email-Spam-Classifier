@@ -1,63 +1,265 @@
-# 🛡️ SpamShield — Email & SMS Spam Classifier
+<div align="center">
 
-A Streamlit machine-learning application that predicts whether a text message is **spam** or **legitimate (ham)** using TF-IDF and Multinomial Naive Bayes.
+# 🛡️ SpamShield
+### Email & SMS Spam Classifier
 
-> **🚀 Live demo:** [Try SpamShield on Streamlit](https://email-spam-classifier-humva2iyr278fyi839ud9c.streamlit.app/)
+**An end-to-end NLP and machine learning application for classifying text messages as spam or legitimate.**
 
-## Features
-- Clean, responsive dark-themed Streamlit interface
-- Single-message classification with model-estimated spam probability
-- Reproducible training script and held-out evaluation metrics
-- TF-IDF text features, stopword removal, Porter stemming, Naive Bayes
-- No paid APIs required
+[![Live App](https://img.shields.io/badge/🚀_Live_Demo-Streamlit-FF4B4B?style=for-the-badge)](https://email-spam-classifier-humva2iyr278fyi839ud9c.streamlit.app/)
+[![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![Streamlit](https://img.shields.io/badge/Streamlit-App-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://streamlit.io/)
+[![scikit-learn](https://img.shields.io/badge/scikit--learn-ML-F7931E?style=for-the-badge&logo=scikitlearn&logoColor=white)](https://scikit-learn.org/)
 
-## Dataset
-[SMS Spam Collection on Kaggle](https://www.kaggle.com/datasets/uciml/sms-spam-collection-dataset). Download `spam.csv` and place it at `data/spam.csv`. Columns `v1` and `v2` contain labels and messages respectively. This is an **SMS dataset**, so accuracy on real email is not established.
+[**Try the App**](https://email-spam-classifier-humva2iyr278fyi839ud9c.streamlit.app/) · [**View Source**](https://github.com/Atrayee321/Email-Spam-Classifier) · [**Dataset**](https://www.kaggle.com/datasets/uciml/sms-spam-collection-dataset)
 
-## Quick start
-```bash
-python3 -m venv .venv
-source .venv/bin/activate  # Windows: .venv\Scripts\activate
-pip install -r requirements.txt
-python train.py
-streamlit run app.py
+</div>
+
+---
+
+## 📌 Overview
+
+SpamShield is a text-classification web application that uses **Natural Language Processing (NLP)**, **TF-IDF vectorization**, and a **Multinomial Naive Bayes** classifier to predict whether an input message is **spam** or **ham** (legitimate).
+
+The model was trained and evaluated using the **SMS Spam Collection** dataset. Although the interface accepts email text, **performance on real email has not been separately validated**.
+
+### ✨ Key Features
+
+- 🧠 **Machine learning inference** — classify user-submitted messages as spam or ham
+- 📊 **Spam probability estimate** — view a model-estimated spam probability and progress indicator
+- 🎨 **Modern dark-themed UI** — clean, responsive Streamlit interface
+- 🔎 **Transparent evaluation** — accuracy, precision, recall, F1 and confusion matrix
+- ⚙️ **Reproducible training** — retrain the complete scikit-learn pipeline with one command
+- ☁️ **Cloud deployment** — accessible through Streamlit Community Cloud
+- 🔑 **No external inference API key** — classification runs using a locally loaded model artifact
+
+## 🌐 Live Application
+
+<div align="center">
+
+### [🚀 Launch SpamShield](https://email-spam-classifier-humva2iyr278fyi839ud9c.streamlit.app/)
+
+**How to use:** Enter or paste a message → click **Analyze message** → review the predicted class and spam probability.
+
+</div>
+
+> **Note:** A classification result is a statistical estimate, not a security guarantee. Do not trust suspicious links or attachments based solely on a ham prediction.
+
+## 📈 Model Performance
+
+Results recorded in [`models/metrics.json`](models/metrics.json) from a held-out **20% stratified test split** after removing duplicate messages.
+
+| Evaluation metric | Score |
+|:---|---:|
+| **Accuracy** | **98.16%** |
+| Spam precision | 97.46% |
+| Spam recall | 87.79% |
+| Spam F1-score | 92.37% |
+| Total unique labeled messages | 5,169 |
+| Held-out test messages | 1,034 |
+
+### Confusion Matrix
+
+| Actual \ Predicted | Ham | Spam |
+|:---|---:|---:|
+| **Ham** | 900 | 3 |
+| **Spam** | 16 | 115 |
+
+**Interpretation:** On the held-out SMS test set, the model correctly classified 1,015 messages out of 1,034. It missed 16 spam messages and incorrectly flagged 3 legitimate messages as spam.
+
+> Results are dataset-specific. The displayed spam probability is not guaranteed to be calibrated.
+
+## 🧠 How It Works
+
+```text
+                  ┌─────────────────────┐
+                  │ User enters message │
+                  └──────────┬──────────┘
+                             ▼
+                  ┌─────────────────────┐
+                  │ Text preprocessing  │
+                  │ lowercase, tokenize │
+                  │ stopwords, stemming │
+                  └──────────┬──────────┘
+                             ▼
+                  ┌─────────────────────┐
+                  │ TF-IDF vectorizer   │
+                  │ max 3,000 features  │
+                  └──────────┬──────────┘
+                             ▼
+                  ┌─────────────────────┐
+                  │ MultinomialNB model │
+                  └──────────┬──────────┘
+                             ▼
+                  ┌─────────────────────┐
+                  │ Spam / Ham result   │
+                  │ + probability       │
+                  └─────────────────────┘
 ```
 
-## Project structure
-```
+**Preprocessing:** Regex-based alphanumeric tokenization, lowercase conversion, English stopword removal, and Porter stemming.
+
+**Feature extraction:** `TfidfVectorizer` converts the processed messages into numerical features.
+
+**Classification:** `MultinomialNB(alpha=0.3)` learns patterns from labeled messages. The complete preprocessing/vectorizer/classifier pipeline is saved as a `joblib` artifact so inference uses the same transformations as training.
+
+## 🛠️ Technology Stack
+
+| Layer | Technology |
+|:---|:---|
+| Programming language | Python |
+| Machine learning | scikit-learn |
+| Text preprocessing | NLTK, regex |
+| Feature extraction | TF-IDF |
+| Classification | Multinomial Naive Bayes |
+| Data handling | pandas |
+| Model persistence | joblib |
+| Web application | Streamlit |
+| Hosting | Streamlit Community Cloud |
+| Version control | Git & GitHub |
+| Automated training | GitHub Actions |
+
+## 📁 Project Structure
+
+```text
 Email-Spam-Classifier/
-├── app.py
-├── train.py
-├── src/
-│   └── preprocessing.py
+├── .github/
+│   └── workflows/
+│       └── train-model.yml       # Automated training workflow
+├── .streamlit/
+│   └── config.toml               # Streamlit theme
 ├── data/
-│   └── spam.csv            # Add Kaggle CSV here
+│   ├── spam.csv                  # Labeled SMS dataset
+│   └── README.txt
 ├── models/
-│   ├── spam_pipeline.joblib # Created by training
-│   └── metrics.json         # Created by training
-├── .streamlit/config.toml
-├── requirements.txt
+│   ├── spam_pipeline.joblib      # Trained ML pipeline
+│   ├── metrics.json              # Test-set evaluation
+│   └── README.txt
+├── src/
+│   └── preprocessing.py          # Text preprocessing
+├── app.py                        # Streamlit application
+├── train.py                      # Model training and evaluation
+├── requirements.txt              # Python dependencies
+├── .gitignore
 └── README.md
 ```
 
-## Deploy to Streamlit Community Cloud
-1. Train locally or in Colab and commit `models/spam_pipeline.joblib` and `models/metrics.json` to GitHub.
-2. Push project files to a public GitHub repository. `data/spam.csv` is not needed for inference after training.
-3. Go to https://share.streamlit.io and create an app from your repository.
-4. Choose branch `main`, entry point `app.py`, and deploy.
+## 🚀 Run Locally
 
-## How it works
-1. Normalize text and tokenize words.
-2. Remove English stopwords and stem terms.
-3. Convert messages to TF-IDF vectors.
-4. Train Multinomial Naive Bayes on a stratified 80/20 train/test split.
-5. Predict spam/ham and show estimated spam probability.
+### Prerequisites
+- Python 3.11 or a compatible recent Python version
+- Git and pip
 
-## Evaluation
-Run `python train.py` to generate **actual** accuracy, spam precision, spam recall, F1, and confusion matrix in `models/metrics.json`. No evaluation scores are claimed before training.
+**1. Clone the repository**
 
-## Limitations
-A short-message classifier is not a comprehensive phishing or malware detector. Predictions may be unreliable on long emails, unseen languages, and changing spam tactics. Probabilities may be uncalibrated. Never load untrusted `.joblib` model files.
+```bash
+git clone https://github.com/Atrayee321/Email-Spam-Classifier.git
+cd Email-Spam-Classifier
+```
 
-## Attribution
-Inspired by [CampusX's SMS Spam Classifier](https://github.com/campusx-official/sms-spam-classifier). Dataset credited to the [UCI SMS Spam Collection](https://archive.ics.uci.edu/dataset/228/sms+spam+collection) via Kaggle.
+**2. Create and activate a virtual environment**
+
+macOS / Linux:
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+Windows PowerShell:
+```powershell
+py -m venv .venv
+.venv\Scripts\Activate.ps1
+```
+
+**3. Install dependencies**
+
+```bash
+python -m pip install -r requirements.txt
+```
+
+**4. Launch the application**
+
+```bash
+streamlit run app.py
+```
+
+Open the local URL printed by Streamlit (usually `http://localhost:8501`).
+
+### 🔄 Retrain the Model (Optional)
+
+The repository already contains a trained model. To reproduce the training process:
+
+```bash
+python train.py
+```
+
+This reads `data/spam.csv`, creates a stratified 80/20 train/test split, trains the pipeline, and regenerates:
+- `models/spam_pipeline.joblib`
+- `models/metrics.json`
+
+The training script uses `random_state=42` for reproducible splitting. Exact results may vary with dependency versions or dataset changes.
+
+## ☁️ Streamlit Deployment
+
+The project is deployed at:
+
+**[email-spam-classifier-humva2iyr278fyi839ud9c.streamlit.app](https://email-spam-classifier-humva2iyr278fyi839ud9c.streamlit.app/)**
+
+To deploy your own version:
+
+1. Fork or clone this repository and push it to GitHub.
+2. Confirm that `models/spam_pipeline.joblib` is committed.
+3. Open [Streamlit Community Cloud](https://share.streamlit.io/).
+4. Choose **Create app** and select your GitHub repository.
+5. Set branch to `main` and entry point to `app.py`.
+6. Deploy and open the generated public URL.
+
+The included GitHub Actions workflow can regenerate the dataset and trained model when needed.
+
+## 🗂️ Dataset
+
+**Dataset:** [SMS Spam Collection (Kaggle)](https://www.kaggle.com/datasets/uciml/sms-spam-collection-dataset)
+
+**Original source:** [UCI Machine Learning Repository](https://archive.ics.uci.edu/dataset/228/sms+spam+collection)
+
+The dataset includes English SMS messages labeled:
+- `ham` — legitimate messages
+- `spam` — unsolicited or spam messages
+
+The training script removes duplicate rows and uses the `v1` label and `v2` message columns.
+
+## ⚠️ Limitations & Responsible Use
+
+- Trained on **SMS**, not a representative corpus of full-length emails.
+- Predictions may be less reliable for other languages, unusual formats, or new spam campaigns.
+- False negatives occur: the held-out evaluation includes spam messages incorrectly labeled ham.
+- Model-estimated probabilities may not be well calibrated.
+- This application is **not** a malware scanner, phishing-link analyzer, or replacement for production email security tools.
+- Only load model files from trusted sources; Python pickle-based artifacts can execute code when loaded.
+
+## 🧭 Future Improvements
+
+- [ ] Validate on a separate, labeled real-email dataset
+- [ ] Compare with Logistic Regression, Linear SVM, and other classifiers
+- [ ] Add calibrated probabilities and decision-threshold tuning
+- [ ] Add explainability for influential message terms
+- [ ] Add tests and CI checks for training/inference
+- [ ] Support multilingual spam detection
+- [ ] Evaluate robustness on new or adversarial spam examples
+
+## 🙏 Acknowledgements
+
+- [CampusX SMS Spam Classifier](https://github.com/campusx-official/sms-spam-classifier) — reference project and inspiration
+- [UCI SMS Spam Collection](https://archive.ics.uci.edu/dataset/228/sms+spam+collection) — dataset
+- [Streamlit](https://streamlit.io/) and [scikit-learn](https://scikit-learn.org/) — application and machine learning tools
+
+---
+
+<div align="center">
+
+**Built with Python, NLP, and Machine Learning**
+
+⭐ If you find this project useful, consider starring the repository.
+
+[⬆ Back to top](#️-spamshield)
+
+</div>
