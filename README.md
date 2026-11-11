@@ -30,7 +30,20 @@ The model was trained and evaluated using the **SMS Spam Collection** dataset. A
 - ⚙️ **Reproducible training** — retrain the complete scikit-learn pipeline with one command
 - ☁️ **Cloud deployment** — accessible through Streamlit Community Cloud
 - 🔑 **No external inference API key** — classification runs using a locally loaded model artifact
+  
+## 🛠️ Tech Stack
 
+- **Language:** Python
+- **Machine Learning:** Scikit-learn
+- **NLP:** NLTK, Regex, Porter Stemming, Stopword Removal
+- **Feature Extraction:** TF-IDF Vectorization
+- **Classification Algorithm:** Multinomial Naive Bayes
+- **Data Processing:** Pandas
+- **Model Serialization:** Joblib
+- **Web Framework:** Streamlit
+- **Deployment:** Streamlit Community Cloud
+- **Version Control:** Git & GitHub
+- **CI/Automation:** GitHub Actions
 ## 🌐 Live Application
 
 <div align="center">
